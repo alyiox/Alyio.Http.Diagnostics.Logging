@@ -3,7 +3,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Alyio.Extensions.Http.Logging.Tests
+namespace Alyio.Http.Diagnostics.Logging.Tests
 {
     public class HttpRequestMessageExtensionsTests
     {

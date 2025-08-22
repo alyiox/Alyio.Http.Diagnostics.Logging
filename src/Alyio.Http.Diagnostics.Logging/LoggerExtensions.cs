@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Alyio.Extensions.Http.Logging
+namespace Alyio.Http.Diagnostics.Logging
 {
     internal static partial class LoggerExtensions
     {

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using Microsoft.Net.Http.Headers;
 
-namespace Alyio.Extensions;
+namespace Alyio.Http.Diagnostics.Logging;
 
 /// <summary>
 /// Extension methods for <see cref="HttpRequestMessage"/>.

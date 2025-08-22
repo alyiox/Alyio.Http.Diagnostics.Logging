@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Alyio.Extensions.Http.Logging\Alyio.Extensions.Http.Logging.csproj" />
+    <ProjectReference Include="..\..\src\Alyio.Http.Diagnostics.Logging\Alyio.Http.Diagnostics.Logging.csproj" />
   </ItemGroup>
 
 </Project>

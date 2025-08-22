@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Alyio.Extensions.Http.Logging;
+namespace Alyio.Http.Diagnostics.Logging;
 
 /// <summary>
 /// Provides programmatic configuration for HTTP message logging.

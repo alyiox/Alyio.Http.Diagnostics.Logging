@@ -3,7 +3,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Alyio.Extensions;
+namespace Alyio.Http.Diagnostics.Logging;
 
 /// <summary>
 /// Extension methods for <see cref="HttpResponseMessage"/>.

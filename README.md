@@ -1,12 +1,14 @@
-# Alyio.Extensions.Http.Logging
+# Alyio.Http.Diagnostics.Logging
 
-[![Build Status](https://github.com/ousiax/Alyio.Extensions.Http.Logging/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ousiax/Alyio.Extensions.Http.Logging/actions/workflows/ci.yml)
+[![Build Status](https://github.com/ousiax/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ousiax/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml)
 
-**Alyio.Extensions.Http.Logging** is a .NET library that extends `HttpClientHandler` to provide logging of raw HTTP request and response messages. It offers detailed configuration options to customize the logging output.
+**Alyio.Http.Diagnostics.Logging** is a .NET library designed to provide deep insights into HTTP communication within your applications. It extends `HttpClientHandler` to offer comprehensive logging of raw HTTP request and response messages, with detailed configuration options to customize the output.
 
-## What's New in 4.2.0
+This library is intended to complement existing telemetry solutions like OpenTelemetry, providing granular detail on HTTP payloads that standard instrumentation might not capture.
 
--   **Header Redaction**: You can now redact sensitive information from request and response headers in the logs. By default, the `Authorization` header is redacted from request headers.
+## What's New in 1.0.0-preview.0
+
+This is the initial preview release of `Alyio.Http.Diagnostics.Logging`. It includes the core functionality for raw HTTP message logging, building upon the foundation of its predecessor.
 
 ## Features
 
@@ -21,7 +23,7 @@
 Install the package from NuGet:
 
 ```sh
-dotnet add package Alyio.Extensions.Http.Logging
+dotnet add package Alyio.Http.Diagnostics.Logging --version 1.0.0-preview.0
 ```
 
 ## Usage
@@ -154,49 +156,6 @@ info: System.Net.Http.HttpClient.IOpenWeatherMapService.HttpRawMessageLoggingHan
       {"coord":{"lon":-0.13,"lat":51.51},"weather":[{"id":300,"main":"Drizzle","description":"light intensity drizzle","icon":"09d"}],"base":"stations","main":{"temp":280.32,"pressure":1012,"humidity":81,"temp_min":279.15,"temp_max":281.15},"visibility":10000,"wind":{"speed":4.1,"deg":80},"clouds":{"all":90},"dt":1485789600,"sys":{"type":1,"id":5091,"message":0.0103,"country":"GB","sunrise":1485762037,"sunset":1485794875},"id":2643743,"name":"London","cod":200}
 ^C
 ```
-
-## Migration from 3.x to 4.x
-
-Version 4.0 introduces several breaking changes to improve the API and add new features. Here's how to migrate from version 3.x:
-
-1.  Update the package reference to version 4.0 or later:
-
-    ```xml
-    <PackageReference Include="Alyio.Extensions.Http.Logging" Version="4.2.0" />
-    ```
-
-2.  Replace `AddLoggerHandler` with `AddHttpRawMessageLogging`:
-
-    ```csharp
-    // Old (3.x)
-    .AddLoggerHandler(ignoreRequestContent: false, ignoreResponseContent: false)
-
-    // New (4.x)
-    .AddHttpRawMessageLogging(options =>
-    {
-        options.IgnoreRequestContent = false;
-        options.IgnoreResponseContent = false;
-        options.IgnoreRequestHeaders = new[] { "User-Agent" };
-        options.IgnoreResponseHeaders = new[] { "Date" };
-    });
-    ```
-
-3.  Update log category names in your logging configuration:
-
-    ```csharp
-    // Old (3.x)
-    .AddFilter("System.Net.Http.HttpClient.*.LoggerHandler", LogLevel.Information)
-
-    // New (4.x)
-    .AddFilter("System.Net.Http.HttpClient.*.HttpRawMessageLoggingHandler", LogLevel.Information)
-    ```
-
-### Key Changes in Version 4.0
-
--   Renamed `LoggerHandler` to `HttpRawMessageLoggingHandler` for better clarity.
--   Renamed `AddLoggerHandler` to `AddHttpRawMessageLogging` to better describe its purpose.
--   Improved performance and memory usage.
--   Updated to target .NET 8.0.
 
 ## Contributing
 

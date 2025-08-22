@@ -4,7 +4,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Alyio.Extensions.Http.Logging
+namespace Alyio.Http.Diagnostics.Logging
 {
     /// <summary>
     /// The message handler used by <see cref="HttpClient"/> for logging raw HTTP request and response messages.

@@ -1,5 +1,6 @@
 ﻿// MIT License
 
+using Alyio.Http.Diagnostics.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ HostApplicationBuilder builder = Host.CreateApplicationBuilder();
 // builder.Services.ConfigureHttpClientDefaults(builder =>
 // {
 //     builder.AddHttpRawMessageLogging(
-//         categoryName: "Alyio.Extensions.Http.Logging.Samples",
+//         categoryName: "Alyio.Http.Diagnostics.Samples",
 //         logLevel: LogLevel.Information,
 //         ignoreRequestContent: false,
 //         ignoreResponseContent: false,

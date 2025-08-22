@@ -1,6 +1,6 @@
 // MIT License
 
-namespace Alyio.Extensions
+namespace Alyio.Http.Diagnostics.Logging
 {
     /// <summary>
     /// Extension methods for <see cref="HttpContent"/>.
