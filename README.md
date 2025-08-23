@@ -1,6 +1,7 @@
 # Alyio.Http.Diagnostics.Logging
 
-[![Build Status](https://github.com/ousiax/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ousiax/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml)
+[![Build Status](https://github.com/alyiox/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/alyiox/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml)
+[![NuGet Badge](https://buildstats.info/nuget/Alyio.Http.Diagnostics.Logging)](https://www.nuget.org/packages/Alyio.Http.Diagnostics.Logging)
 
 Alyio.Http.Diagnostics.Logging is a .NET library that provides deep visibility into the HTTP and HTTPS traffic in applications. It extends `HttpClientHandler` to provide detailed, raw logging of HTTP requests and responses.
 
