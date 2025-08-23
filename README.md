@@ -2,21 +2,24 @@
 
 [![Build Status](https://github.com/ousiax/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ousiax/Alyio.Http.Diagnostics.Logging/actions/workflows/ci.yml)
 
-**Alyio.Http.Diagnostics.Logging** is a .NET library designed to provide deep insights into HTTP communication within your applications. It extends `HttpClientHandler` to offer comprehensive logging of raw HTTP request and response messages, with detailed configuration options to customize the output.
+Alyio.Http.Diagnostics.Logging is a .NET library that provides deep visibility into the HTTP and HTTPS traffic in applications. It extends `HttpClientHandler` to provide detailed, raw logging of HTTP requests and responses.
 
-This library is intended to complement existing telemetry solutions like OpenTelemetry, providing granular detail on HTTP payloads that standard instrumentation might not capture.
+## Why Alyio.Http.Diagnostics.Logging?
 
-## What's New in 1.0.0-preview.0
+In complex systems, understanding the exact data being sent and received over HTTP is crucial for debugging, auditing, and ensuring security. While tools like OpenTelemetry provide excellent high-level telemetry, they often don't capture the full raw payload of HTTP messages.
 
-This is the initial preview release of `Alyio.Http.Diagnostics.Logging`. It includes the core functionality for raw HTTP message logging, building upon the foundation of its predecessor.
+This library provides the ground-truth of HTTP communication, which is useful for:
+- **Precision Debugging:** The exact headers and bodies of requests and responses can be inspected to quickly identify issues.
+- **Auditing and Compliance:** A detailed log of all HTTP interactions can be maintained for security and compliance purposes.
+- **Enhancing Existing Telemetry:** Existing telemetry solutions can be complemented with low-level details for drilling down into specific requests.
 
-## Features
+## Key Features
 
--   Log raw HTTP request and response messages.
--   Configure logging for all `HttpClient` instances or specific named clients.
--   Customize logging with options to ignore request/response content and headers.
--   Redact sensitive information from headers.
--   Supports .NET 6.0, 8.0, 9.0 and 10.0.
+-   **Detailed HTTP Logging:** Capture and log the full, raw content of HTTP request and response messages, including headers and bodies.
+-   **Highly Configurable:** Fine-tune logging with options to ignore specific headers or content, and control log levels.
+-   **Sensitive Data Redaction:** Automatically redact sensitive information from headers (like `Authorization` tokens) to keep logs secure.
+-   **Targeted Logging:** Apply logging to all `HttpClient` instances in an application or target specific named clients for granular control.
+-   **Broad .NET Support:** Compatible with .NET 6.0, 8.0, 9.0 and 10.0.
 
 ## Installation
 
@@ -28,17 +31,18 @@ dotnet add package Alyio.Http.Diagnostics.Logging --version 1.0.0-preview.0
 
 ## Usage
 
-To use the HTTP message logging functionality, use the `IHttpClientBuilder.AddHttpRawMessageLogging` extension method to add the `HttpRawMessageLoggingHandler` to your `HttpClient`.
+To use the HTTP message logging functionality, use the `IHttpClientBuilder.AddHttpRawMessageLogging` extension method to add the `HttpRawMessageLoggingHandler` to the `HttpClient`.
 
 ### Configure Logging for All HTTP Clients
 
-You can configure logging for all HTTP clients in your application using `ConfigureHttpClientDefaults`:
+Logging can be configured for all HTTP clients in an application using `ConfigureHttpClientDefaults`:
 
 ```csharp
 builder.Services.ConfigureHttpClientDefaults(builder =>
 {
     builder.AddHttpRawMessageLogging(options =>
     {
+        options.CategoryName = "MyCustomCategory";
         options.LogLevel = LogLevel.Information;
         options.IgnoreRequestContent = false;
         options.IgnoreResponseContent = false;
@@ -51,7 +55,7 @@ builder.Services.ConfigureHttpClientDefaults(builder =>
 
 ### Configure Logging for a Specific Named HTTP Client
 
-You can also configure logging for a specific named `HttpClient`:
+Logging can also be configured for a specific named `HttpClient`:
 
 ```csharp
 using Microsoft.Extensions.DependencyInjection;
@@ -67,6 +71,7 @@ builder.Services
     })
     .AddHttpRawMessageLogging(options =>
     {
+        options.CategoryName = "MyOpenWeatherMapClient";
         options.LogLevel = LogLevel.Information;
         options.IgnoreRequestContent = false;
         options.IgnoreResponseContent = false;
@@ -79,7 +84,9 @@ builder.Services.AddHostedService<OpenWeatherMapHostedService>();
 
 builder.Logging
     .SetMinimumLevel(LogLevel.Warning)
-    .AddFilter("System.Net.Http.HttpClient", LogLevel.Information);
+    .AddFilter("System.Net.Http.HttpClient", LogLevel.Information)
+    .AddFilter("MyCustomCategory", LogLevel.Information)
+    .AddFilter("MyOpenWeatherMapClient", LogLevel.Information);
 
 IHost app = builder.Build();
 
@@ -112,10 +119,11 @@ sealed class OpenWeatherMapService(HttpClient client) : IOpenWeatherMapService
 }
 ```
 
-### Configuration Options
+## Configuration Options
 
 The `AddHttpRawMessageLogging` extension method provides the following options:
 
+-   `CategoryName`: The category name for the logger. Defaults to a name based on the `HttpClient` name.
 -   `LogLevel`: The minimum log level for HTTP message logging. Defaults to `LogLevel.Information`.
 -   `IgnoreRequestContent`: Whether to ignore the request content in logs. Defaults to `true`.
 -   `IgnoreResponseContent`: Whether to ignore the response content in logs. Defaults to `true`.
@@ -124,7 +132,7 @@ The `AddHttpRawMessageLogging` extension method provides the following options:
 -   `RedactRequestHeaders`: A collection of request header names to redact in logs. Defaults to `["Authorization"]`.
 -   `RedactResponseHeaders`: A collection of response header names to redact in logs.
 
-### Example Output
+## Example Output
 
 ```console
 $ dotnet run
