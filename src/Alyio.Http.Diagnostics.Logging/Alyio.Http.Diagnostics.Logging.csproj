@@ -13,11 +13,11 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IncludeSymbols>true</IncludeSymbols>
     <PackageTags>Diagnostics;HTTP;Logging;HttpRequestMessage;HttpResponseMessage;OpenTelemetry</PackageTags>
-    <PackageProjectUrl>https://github.com/ousiax/Alyio.Http.Diagnostics.Logging</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/alyiox/Alyio.Http.Diagnostics.Logging</PackageProjectUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/ousiax/Alyio.Http.Diagnostics.Logging</RepositoryUrl>
+    <RepositoryUrl>https://github.com/alyiox/Alyio.Http.Diagnostics.Logging</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
