@@ -1,6 +1,7 @@
 // MIT License
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Alyio.Http.Diagnostics.Logging;
@@ -33,6 +34,8 @@ public static class HttpClientBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
+        builder.RemoveHttpRawMessageLogging();
+
         builder.Services.AddTransient<HttpRawMessageLoggingHandler>();
         builder.Services.AddOptions<HttpMessageLoggingOptions>().Configure(options =>
         {
@@ -53,6 +56,44 @@ public static class HttpClientBuilderExtensions
         });
 
         builder.AddHttpMessageHandler<HttpRawMessageLoggingHandler>();
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Removes the <see cref="HttpRawMessageLoggingHandler"/> from the <see cref="HttpClient"/> pipeline.
+    /// </summary>
+    /// <param name="builder">The <see cref="IHttpClientBuilder" />.</param>
+    /// <returns>An <see cref="IHttpClientBuilder" /> that can be used to configure the client.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="builder"/> is null.</exception>
+    public static IHttpClientBuilder RemoveHttpRawMessageLogging(this IHttpClientBuilder builder)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+#if NET8_0_OR_GREATER
+        _ = builder.ConfigureAdditionalHttpMessageHandlers(static (handlers, _) =>
+        {
+            for (int i = handlers.Count - 1; i >= 0; i--)
+            {
+                if (handlers[i] is HttpRawMessageLoggingHandler)
+                {
+                    handlers.RemoveAt(i);
+                }
+            }
+        });
+#else
+        _ = builder.Services.Configure<HttpClientFactoryOptions>(builder.Name, options =>
+        {
+            for (int i = options.HttpMessageHandlerBuilderActions.Count - 1; i >= 0; i--)
+            {
+                Action<HttpMessageHandlerBuilder> action = options.HttpMessageHandlerBuilderActions[i];
+                if (action.Target?.GetType()?.GetGenericArguments()?.FirstOrDefault() == typeof(HttpRawMessageLoggingHandler))
+                {
+                    options.HttpMessageHandlerBuilderActions.RemoveAt(i);
+                }
+            }
+        });
+#endif
 
         return builder;
     }
