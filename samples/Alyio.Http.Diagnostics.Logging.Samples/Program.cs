@@ -27,7 +27,11 @@ builder.Services
     {
         client.BaseAddress = new Uri("http://samples.openweathermap.org");
     })
-    .AddHttpRawMessageLogging(ignoreRequestContent: false, ignoreResponseContent: false);
+    .AddHttpRawMessageLogging(options =>
+    {
+        options.IgnoreRequestContent = false;
+        options.IgnoreResponseContent = false;
+    });
 
 builder.Services.AddHostedService<OpenWeatherMapHostedService>();
 
